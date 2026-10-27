@@ -1,0 +1,24 @@
+@import "tailwindcss";
+
+/* Tamaños de texto ajustables — afecta todo el documento */
+html.texto-normal {
+  font-size: 16px;
+}
+html.texto-grande {
+  font-size: 19px;
+}
+html.texto-muy-grande {
+  font-size: 22px;
+}
+
+/* Modo alto contraste — refuerza bordes y contraste de texto */
+html.alto-contraste {
+  filter: contrast(1.15);
+}
+html.alto-contraste * {
+  border-color: #ffffff !important;
+}
+html.alto-contraste .text-gray-400,
+html.alto-contraste .text-gray-500 {
+  color: #e5e7eb !important;
+}
