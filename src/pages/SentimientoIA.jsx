@@ -9,6 +9,16 @@ const SENTIMENT_STYLES = {
   neutral: { color: 'text-yellow-500', bg: 'bg-yellow-500/10', emoji: '⚖️' },
 }
 
+// Convierte la fecha ISO del backend en algo legible, ej. "27 oct, 15:42"
+function formatearHora(fechaIso) {
+  return new Date(fechaIso).toLocaleString('es-MX', {
+    day: 'numeric',
+    month: 'short',
+    hour: '2-digit',
+    minute: '2-digit',
+  })
+}
+
 function SentimientoIA() {
   const { data, loading, error } = useMarketSentiment()
     const { hablar, detener, hablando, soportado } = useTextToSpeech()
@@ -31,6 +41,22 @@ function SentimientoIA() {
 
       {data && !loading && !error && (
         <div>
+          {data.desactualizado && (
+            <div
+              role="status"
+              className="flex items-start gap-2 border border-yellow-500/40 bg-yellow-500/10 text-yellow-300 rounded-xl p-4 mb-4 text-sm"
+            >
+              <span aria-hidden="true">⚠️</span>
+              <p>
+                No se pudo generar un análisis nuevo en este momento. Se muestra el último análisis disponible
+                {data.actualizado && (
+                  <>, de las {formatearHora(data.actualizado)}</>
+                )}
+                .
+              </p>
+            </div>
+          )}
+
           <div
             className={`border border-gray-800 rounded-xl p-6 mb-6 ${
               SENTIMENT_STYLES[data.sentimiento]?.bg || 'bg-gray-900'
